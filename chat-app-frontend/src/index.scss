@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+:root {
+    --color-bg: #c1bcf9;
+    --color-bg-variant: #57419d;
+    --color-primary: #fecb82;
+    --color-primary-variant: #9e7297;
+    --color-white: #fff;
+    --container-width-lg: 85%;
+    --container-width-sm: 90%;
+    --transition: all 400ms ease;
+
+}
+
+body {
+    background-image: url(./Assest/bg_main.svg);
+    color: var(--color-white);
+}
+
+.container {
+    background: var(--color-bg-variant);
+    margin: 1rem;
+    padding: 1rem 2rem;
+    border: 2px solid var(--color-bg-variant);
+    border-radius: 2rem;
+
+}
+.btn {
+    width: max-content;
+    height: max-content;
+    display: inline-block;
+    color: var(--color-white);
+    padding: 0.75rem 1.2rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: var(--transition);
+
+    &:hover {
+        background: var(--color-primary-variant);
+    }
+
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-size: 1.5rem;
+}

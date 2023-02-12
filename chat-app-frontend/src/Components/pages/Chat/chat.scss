@@ -1,0 +1,8 @@
+.chat_container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  gap: 2rem;
+  justify-content: center;
+  height: calc(100vh - 6rem);
+  overflow: hidden;
+}

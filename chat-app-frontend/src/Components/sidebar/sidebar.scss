@@ -1,0 +1,11 @@
+.sidebar_container {
+    h2 {
+        text-align: center;
+    }
+
+    .list-group-item {
+        border: 1px solid var(--color-bg);
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+}
