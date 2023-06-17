@@ -4,22 +4,14 @@ import { Link } from "react-router-dom";
 import LOGO from "../../Assest/logo.webp";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Nav() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    name: "",
-    image: "",
-  });
+  const [data, setData] = useState({});
   const [isNotLoggedin, setIsNotLoggedin] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("token");
-    setData({
-      name: localStorage.getItem("name"),
-      image: localStorage.getItem("image"),
-    });
-
+    setData(JSON.parse(localStorage.getItem("userDetails")));
     if (!user) {
       setIsNotLoggedin(true);
     }
@@ -27,8 +19,7 @@ export default function Nav() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("name");
-    localStorage.removeItem("image");
+    localStorage.removeItem("userDetails");
     navigate("/");
   };
   return (
@@ -41,8 +32,8 @@ export default function Nav() {
           {!isNotLoggedin ? (
             <div className="right_items_loggedin">
               <div className="userDetails">
-                <img src={data.image} alt="Profile" />
-                <span className="name">{data.name}</span>
+                <img src={data.avatarUrl} alt="Profile" />
+                <span className="name">{data.fullName}</span>
                 <ul className="ul_loggedin">
                   <li className="li_loggedin">
                     <span onClick={handleLogout}>Logout </span>

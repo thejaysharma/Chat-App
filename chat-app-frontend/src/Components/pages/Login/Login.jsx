@@ -41,11 +41,13 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8080/api/auth";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.data);
-      localStorage.setItem("name", res.name);
-      localStorage.setItem("image", res.avatarUrl);
+      const url = "http://localhost:8080/api/users/login";
+      await axios.post(url, data).then(res => {
+        console.log(res.data.token);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userDetails", JSON.stringify(res.data));
+
+      })
       navigate("/chat");
     } catch (error) {
       if (

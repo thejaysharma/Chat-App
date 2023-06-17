@@ -1,24 +1,15 @@
-const router = require("express").Router();
-const { User, validate } = require("../models/User");
-const bcrypt = require("bcrypt");
+const express = require("express");
+const {
+  registerUser,
+  authUser,
+  allUsers,
+} = require("../controllers/userController");
+// const { protect } = require("../middleware/authMiddleware");
 
-router.post("/", async (req, res) => {
-    try {
-        const { error } = validate(req.body);
-        if (error) {
-            return res.status(400).send(error.details[0].message);
-        }
-        const user = await User.findOne({ email: req.body.email });
-        if (user) {
-            return res.status(409).send({message:"User already registered!"});
-        }
-        const salt = await bcrypt.genSalt(Number(process.env.SALT));
-        const hashPassword = await bcrypt.hash(req.body.password, salt);
-        await new User({ ...req.body, password: hashPassword }).save();
-        res.status(201).send({message:"User registered successfully!"});
-    } catch (error) {
-        res.status(500).send({message:"Something went wrong!"});
-    }
-})
+const router = express.Router();
+
+// router.route("/").get(protect, allUsers);
+router.route("/").post(registerUser);
+router.post("/login", authUser);
 
 module.exports = router;
