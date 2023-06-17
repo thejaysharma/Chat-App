@@ -1,11 +1,11 @@
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 7px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: transparent;
   border-radius: 10px;
 }
 
@@ -33,56 +33,76 @@
     overflow-x: hidden;
   }
 
-  form {
-    .send_message_bar {
-      display: flex;
-      gap: 1.5rem;
+  .send_message_bar form {
+    width: 100%;
+    position: relative;
 
-      input {
-        position: relative;
-        width: 100%;
-        height: 2rem;
-        border-radius: 1.5rem;
-        padding: 1.5rem;
-        border: 2px solid var(--color-bg);
-        background: transparent;
-        color: white;
-        font-size: 1rem;
-        transition: 0.3s;
-        outline: none;
-
-        &::placeholder {
-          /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: white;
-          opacity: 1;
-          /* Firefox */
-        }
-
-        &:-ms-input-placeholder {
-          /* Internet Explorer 10-11 */
-          color: white;
-        }
-
-        &::-ms-input-placeholder {
-          /* Microsoft Edge */
-          color: white;
-        }
-        &:focus {
-          border: 2px solid var(--color-primary);
-        }
-      }
+    .search-field {
+      width: 94%;
+      background-color: transparent;
+      vertical-align: middle;
+      border-radius: 1.5rem;
+      border: 2.4px solid var(--color-bg);
+      font-size: 1.3rem;
+      color: white;
+      line-height: 2;
+      padding: 0.375rem 1.25rem;
+      -webkit-transition: border-color 0.2s;
+      -moz-transition: border-color 0.2s;
+      transition: border-color 0.2s;
     }
 
-    .send_btn {
-      position: relative;
-      padding: 0.3rem 0.8rem;
-      margin-top: 4px;
+    input.search-field {
+      margin-bottom: 0;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: auto;
+      align-self: center;
+      height: 51px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
-      .send_btn_icon {
-        position: relative;
-        margin: 2px -2px -2px 2px;
-        font-size: 1.5rem;
-      }
+    input.search-field::placeholder{
+      color: rgba(255, 255, 255, 0.617);
+    }
+
+    .search-submit {
+      height: 51px;
+      margin: 0;
+      padding: 0 1em;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 1.5rem;
+      border-bottom-right-radius: 1.55rem;
+      font-size: 1rem;
+    }
+
+    .send-button{
+      font-size: 2.5em;
+    }
+
+    .button {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.8rem;
+      background: var(--color-primary);
+      color: white;
+      border: 2.4px solid var(--color-bg);
+      border-left: 0;
+      vertical-align: middle;
+      text-shadow: none;
+      -webkit-transition: all 0.2s;
+      -moz-transition: all 0.2s;
+      transition: all 0.2s;
+    }
+
+    .button:hover,
+    .button:active,
+    .button:focus {
+      cursor: pointer;
+      background: var(--color-primary-variant);
+      outline: 0;
     }
   }
 }
