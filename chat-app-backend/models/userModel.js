@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
 
-const userSchema = new mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
-    fullName: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
+    fullName: { type: "String", required: true },
+    email: { type: "String", unique: true, required: true },
+    password: { type: "String", required: true },
     avatarUrl: {
-      type: String,
+      type: "String",
       required: true,
       default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
@@ -21,9 +20,7 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestaps: true }
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
@@ -39,11 +36,6 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY);
-  return token;
-};
-
 const User = mongoose.model("User", userSchema);
 
 const validateregister = (data) => {
@@ -55,6 +47,5 @@ const validateregister = (data) => {
   });
   return Schema.validate(data);
 };
-
 
 module.exports = { User, validateregister };

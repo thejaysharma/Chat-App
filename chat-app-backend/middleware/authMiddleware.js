@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
-const {User} = require("../models/userModel");
+const { User } = require("../models/userModel.js");
 const asyncHandler = require("express-async-handler");
-require("dotenv").config();
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
-    req.headers.authorization
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];

@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "author": "",
+  "author": "Jay Prakash Sharma",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",

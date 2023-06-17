@@ -1,9 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const {
-  User,
-  validateregister,
-  validatelogin,
-} = require("../models/userModel");
+const { User, validateregister } = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 
 //@description     Get or Search all users
@@ -19,7 +15,7 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const users = await User.find(keyword);
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
 });
 
@@ -27,45 +23,41 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  try {
-    const { error } = validateregister(req.body);
-    if (error) {
-      return res.status(400).send(error.details[0].message);
-    }
+  const { error } = validateregister(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
 
-    const { fullName, email, password, avatarUrl } = req.body;
+  const { fullName, email, password, avatarUrl } = req.body;
 
-    if (!fullName || !email || !password) {
-      res.status(400).send({ message: "Please Enter all the Feilds" });
-    }
+  if (!fullName || !email || !password) {
+    res.status(400).send({ message: "Please Enter all the Feilds" });
+  }
 
-    const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email });
 
-    if (userExists) {
-      res.status(400).send({ message: "User already exists" });
-    }
+  if (userExists) {
+    res.status(400).send({ message: "User already exists" });
+  }
 
-    const user = await User.create({
-      fullName,
-      email,
-      password,
-      avatarUrl,
+  const user = await User.create({
+    fullName,
+    email,
+    password,
+    avatarUrl,
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      avatarUrl: user.avatarUrl,
+      token: generateToken(user._id),
     });
-
-    if (user) {
-      res.status(201).json({
-        _id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        avatarUrl: user.avatarUrl,
-        token: generateToken(user._id),
-      });
-    } else {
-      res.status(400).send({ message: "User not found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: "Something went wrong!" });
+  } else {
+    res.status(400).send({ message: "User not found" });
   }
 });
 
@@ -73,26 +65,21 @@ const registerUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/login
 //@access          Public
 const authUser = asyncHandler(async (req, res) => {
-  try {
+  const { email, password } = req.body;
 
-    const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-    const user = await User.findOne({ email });
-
-    if (user && (await user.matchPassword(password))) {
-      res.json({
-        _id: user._id,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        fullName: user.fullName,
-        avatarUrl: user.avatarUrl,
-        token: generateToken(user._id),
-      });
-    } else {
-      res.status(401).send({ message: "Invalid Email or Password" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: "Something went wrong!" });
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      avatarUrl: user.avatarUrl,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401).send({ message: "Invalid Email or Password" });
   }
 });
 
