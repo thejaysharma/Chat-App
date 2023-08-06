@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Chat() {
   const navigate = useNavigate();
+  const user = localStorage.getItem("token");
   useEffect(() => {
-    const user = localStorage.getItem("token");
     if (!user) {
       navigate("/login");
     }
@@ -19,10 +19,10 @@ export default function Chat() {
       <Nav />
       <div className="container chat_container">
         <div className="sidebar">
-          <SideBar />
+          {user && <SideBar />}
         </div>
         <div className="messageForm">
-          <MessageForm />
+          {user && <MessageForm />}
         </div>
       </div>
     </div>

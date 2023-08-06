@@ -89,7 +89,7 @@ export default function SignUp() {
     });
 
     try {
-      const url = "http://localhost:8080/api/user";
+      const url = "https://chat-app-backend-orpin.vercel.app/api/user";
       await axios.post(url, data)
       navigate("/login");
     } catch (error) {

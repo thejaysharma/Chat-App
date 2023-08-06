@@ -1,8 +1,12 @@
 import React from "react";
 import "./messageform.scss";
 import { IoSend } from "react-icons/io5";
+import ChatMessage from "../pages/ChatMessage/ChatMessage";
+import { ChatState } from "../../Context/ChatProvider";
 
 export default function MessageForm() {
+  const { userToken } = ChatState();
+
   function handleSubmit(e) {
     e.preventDefault();
   }
@@ -10,15 +14,7 @@ export default function MessageForm() {
   return (
     <div className="messageform">
       <div className="messageform_container">
-        <div className="message_output"></div>
-        {/* <form onSubmit={handleSubmit}>
-          <div className="send_message_bar">
-            <input type="text" placeholder="Your message" />
-            <button type="submit" className="btn btn-primary send_btn">
-              <IoSend className="send_btn_icon" />
-            </button>
-          </div>
-        </form> */}
+        <div className="message_output">{userToken && <ChatMessage />}</div>
         <div className="send_message_bar">
           <form className="search-form form">
             <input className="search-field" placeholder="Your Message..." />

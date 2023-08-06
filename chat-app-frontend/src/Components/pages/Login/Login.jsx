@@ -41,7 +41,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8080/api/user/login";
+      const url = "https://chat-app-backend-orpin.vercel.app/api/user/login";
       await axios.post(url, data).then(res => {
         console.log(res.data.token);
         localStorage.setItem("token", res.data.token);

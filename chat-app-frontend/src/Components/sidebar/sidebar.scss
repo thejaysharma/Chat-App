@@ -30,7 +30,7 @@
   .search-results{
     position: relative;
     width: 90%;
-    max-height: 100vh;
+    max-height: 75vh;
     background: var(--color-bg);
     display: flex;
     left: 1em;
@@ -49,6 +49,7 @@
       border-radius: 1em;
       color: var(--color-bg-variant);
       padding: 0.2em;
+      cursor: pointer;
       img{
         height: 50px;
         width: 50px;
@@ -58,6 +59,11 @@
         display: flex;
         flex-direction: column;
         gap: 0.15em;
+      }
+      &:hover{
+        background: var(--color-bg-variant);
+        color: var(--color-bg);
+        transition: ease 0.3s;
       }
     }
   }
