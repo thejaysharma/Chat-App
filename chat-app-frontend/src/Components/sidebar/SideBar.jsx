@@ -5,12 +5,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ChatState } from "../../Context/ChatProvider";
+import { getSenderName, getSenderImage } from "../../Config/ChatsLogic";
 
 export default function SideBar() {
   // state for chat provider
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const { userToken, userDetails, setSelectedChat, chats, setChats } =
+  const { userToken, userDetails, chats, selectedChat, updateSelectedChat } =
     ChatState();
 
   const handleSearch = async (e) => {
@@ -43,17 +44,22 @@ export default function SideBar() {
   const accessChat = async (userId) => {
     try {
       const config = {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${userDetails.token}`,
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
       };
 
       const url = "https://chat-app-backend-orpin.vercel.app/api/chat";
       const { data } = await axios.post(url, { userId }, config);
-      setSelectedChat(data);
+
+      updateSelectedChat(data);
     } catch (error) {
       console.log(error);
     }
+    setSearch("");
+    setSearchResult([]);
   };
+  // console.log(chats[0].users[1].fullName);
 
   return (
     <div className="sidebar">
@@ -79,21 +85,40 @@ export default function SideBar() {
                 <div
                   key={user._id}
                   className="search-result"
-                  handlefunction={() => accessChat(userDetails._id)}
-                  onClick={() => console.log(user)}
+                  onClick={() => accessChat(user._id)}
+                  // onClick={() => console.log(user)}
                 >
                   <img src={user.avatarUrl} alt="profile pic" />
                   <div className="userdetails">
                     <h3>{user.fullName}</h3>
-                    <p>
-                      <b>Email: </b>
-                      {user.email}
-                    </p>
+                    <p>{user.email}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : null}
+        </div>
+
+        <div className="chats-results">
+          {chats.map((chatDetails) => (
+            <div
+              key={chatDetails._id}
+              className={
+                selectedChat === chatDetails
+                  ? "chats-result-selected"
+                  : "chats-result-notselected"
+              }
+              onClick={() => updateSelectedChat(chatDetails)}
+            >
+              <img
+                src={getSenderImage(userDetails, chatDetails.users)}
+                alt="profile pic"
+              />
+              <div className="chatsdetails">
+                <h3>{getSenderName(userDetails, chatDetails.users)}</h3>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -7,9 +7,12 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { BsKey } from "react-icons/bs";
 import axios from "axios";
+import { ChatState } from "../../../Context/ChatProvider";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const { updateUserDetails, updateUserToken } = ChatState();
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -42,12 +45,14 @@ export default function Login() {
     e.preventDefault();
     try {
       const url = "https://chat-app-backend-orpin.vercel.app/api/user/login";
-      await axios.post(url, data).then(res => {
-        console.log(res.data.token);
+      await axios.post(url, data).then((res) => {
+        // console.log(res.data.token);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userDetails", JSON.stringify(res.data));
-
-      })
+        updateUserToken(res.data.token);
+        updateUserDetails(res.data);
+      });
+      alert("Login Successfully");
       navigate("/chat");
     } catch (error) {
       if (

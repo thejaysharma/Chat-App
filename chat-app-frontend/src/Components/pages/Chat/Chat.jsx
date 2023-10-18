@@ -13,17 +13,14 @@ export default function Chat() {
       navigate("/login");
     }
   }, [navigate]);
-  
+
   return (
     <div className="chat" id="chat">
       <Nav />
       <div className="container chat_container">
-        <div className="sidebar">
-          {user && <SideBar />}
-        </div>
-        <div className="messageForm">
-          {user && <MessageForm />}
-        </div>
+        <div className="sidebar">{user && <SideBar />}</div>
+        <div className="vertical_line"></div>
+        <div className="messageForm">{user && <MessageForm />}</div>
       </div>
     </div>
   );

@@ -24,9 +24,11 @@
   height: calc(100vh - 6rem);
 
   .message_output {
-    height: 82%;
-    padding: 0 1.5rem;
-    border: 1px solid red;
+    height: 80%;
+    margin-top: 0.5em;
+    padding: 1em 1.5rem;
+    border: 3px solid var(--color-bg);
+    border-radius: 10px;
     overflow-y: scroll;
     scroll-behavior: smooth;
     margin-bottom: 10px;
@@ -63,7 +65,7 @@
       border-bottom-right-radius: 0;
     }
 
-    input.search-field::placeholder{
+    input.search-field::placeholder {
       color: rgba(255, 255, 255, 0.617);
     }
 
@@ -78,7 +80,7 @@
       font-size: 1rem;
     }
 
-    .send-button{
+    .send-button {
       font-size: 2.5em;
     }
 

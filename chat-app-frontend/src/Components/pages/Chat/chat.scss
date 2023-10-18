@@ -1,8 +1,18 @@
 .chat_container {
   display: grid;
-  grid-template-columns: 25% 75%;
-  gap: 2rem;
+  grid-template-columns: 24% 2% 74%;
+  gap: 0.5rem;
   justify-content: center;
   height: calc(100vh - 6rem);
   overflow: hidden;
+}
+.messageForm{
+  width: 100%;
+}
+.vertical_line {
+  position: relative;
+  top: -20px;
+  background: var(--color-bg);
+  width: 2px;
+  height: 100vh;
 }

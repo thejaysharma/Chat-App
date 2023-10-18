@@ -1,6 +1,6 @@
 .sidebar_container {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 
   .search_input {
     margin-bottom: auto;
@@ -13,7 +13,7 @@
     font-size: 20px;
     padding: 10px 50px 10px 10px;
   }
-  .search_input::placeholder{
+  .search_input::placeholder {
     color: var(--color-bg-variant);
   }
   .search_icon {
@@ -27,8 +27,9 @@
     color: var(--color-bg-variant);
   }
 
-  .search-results{
-    position: relative;
+  .search-results {
+    position: absolute;
+    margin-top: 2.5em;
     width: 90%;
     max-height: 75vh;
     background: var(--color-bg);
@@ -40,8 +41,9 @@
     flex-direction: column;
     gap: 1em;
     overflow-y: scroll;
+    z-index: 10;
 
-    .search-result{
+    .search-result {
       display: flex;
       gap: 1em;
       align-items: center;
@@ -50,20 +52,85 @@
       color: var(--color-bg-variant);
       padding: 0.2em;
       cursor: pointer;
-      img{
+      img {
         height: 50px;
         width: 50px;
         border-radius: 50%;
       }
-      .userdetails{
+      .userdetails {
         display: flex;
         flex-direction: column;
         gap: 0.15em;
       }
-      &:hover{
+      &:hover {
         background: var(--color-bg-variant);
         color: var(--color-bg);
         transition: ease 0.3s;
+      }
+    }
+  }
+
+  .chats-results {
+    position: absolute;
+    width: 100%;
+    max-height: 75vh;
+    display: flex;
+    padding: 1em;
+    border-radius: 1em;
+    flex-direction: column;
+    gap: 0.3em;
+    overflow-y: scroll;
+    z-index: 0;
+
+    .chats-result-notselected {
+      display: flex;
+      gap: 1em;
+      align-items: center;
+      border: 1px solid var(--color-bg);
+      border-radius: 1em;
+      color: var(--color-bg);
+      padding: 0.2em;
+      cursor: pointer;
+      transition: ease 0.3s;
+      
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+      .chatsdetails {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15em;
+      }
+      &:hover {
+        background: var(--color-bg);
+        color: var(--color-bg-variant);
+        transition: ease 0.3s;
+      }
+    }
+
+    .chats-result-selected {
+      display: flex;
+      gap: 1em;
+      align-items: center;
+      border: 1px solid var(--color-bg);
+      border-radius: 1em;
+      color: var(--color-bg-variant);
+      background: var(--color-bg);
+      padding: 0.2em;
+      
+
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+      }
+      .chatsdetails {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15em;
       }
     }
   }
