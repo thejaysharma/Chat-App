@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { ChatState } from "../../../Context/ChatProvider";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollableFeed from "react-scrollable-feed";
 import { isSameSenderMargin, isSameUser } from "../../../Config/ChatsLogic";
+import { ChatState } from "../../../Context/ChatProvider";
+import Loader from "../../Loaders/Loader";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function ChatMessage() {
+export default function ChatMessage(props) {
   const [LoggedUser, setLoggedUser] = useState();
-  const {
-    userToken,
-    userDetails,
-    chats,
-    updateChats,
-    selectedChat,
-    messages,
-    setMessages,
-  } = ChatState();
+  const { userToken, userDetails, chats, updateChats } = ChatState();
 
   const FetchMessagesDetails = async () => {
     try {
@@ -33,28 +27,7 @@ export default function ChatMessage() {
 
       updateChats(data);
     } catch (err) {
-      toast.error("Failed to load the Chat User Details", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
-  };
-
-  const fetchAllMessage = async () => {
-    if (!selectedChat) return;
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      };
-
-      const url = `https://chat-app-backend-orpin.vercel.app/api/message/${selectedChat._id}`;
-
-      const { data } = await axios.get(url, config);
-      console.log(data);
-      setMessages(data);
-    } catch (error) {
-      toast.error("Failed to load the Chat Messages", {
+      toast.error(`${err}`, {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -65,16 +38,12 @@ export default function ChatMessage() {
     FetchMessagesDetails();
   }, []);
 
-  useEffect(() => {
-    fetchAllMessage();
-  }, [selectedChat]);
-
   return (
     <div>
       <ToastContainer autoClose={3000} />
       <ScrollableFeed>
-        {messages &&
-          messages.map((msg, index) => (
+        {props.messages ? (
+          props.messages.map((msg, index) => (
             <div style={{ display: "flex" }} key={msg._id}>
               <span
                 style={{
@@ -83,12 +52,17 @@ export default function ChatMessage() {
                     msg.sender._id === userDetails._id ? "#fecb82" : "#c1bcf9"
                   }`,
                   marginLeft: isSameSenderMargin(
-                    messages,
+                    props.messages,
                     msg,
                     index,
                     userDetails._id
                   ),
-                  marginTop: isSameUser(messages, msg, index, userDetails._id)
+                  marginTop: isSameUser(
+                    props.messages,
+                    msg,
+                    index,
+                    userDetails._id
+                  )
                     ? 3
                     : 5,
                   borderRadius: "20px",
@@ -99,7 +73,10 @@ export default function ChatMessage() {
                 {msg.content}
               </span>
             </div>
-          ))}
+          ))
+        ) : (
+          <Loader />
+        )}
       </ScrollableFeed>
     </div>
   );

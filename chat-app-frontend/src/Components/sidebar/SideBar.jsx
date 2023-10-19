@@ -11,8 +11,14 @@ export default function SideBar() {
   // state for chat provider
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const { userToken, userDetails, chats, selectedChat, updateSelectedChat } =
-    ChatState();
+  const {
+    userToken,
+    userDetails,
+    chats,
+    selectedChat,
+    updateSelectedChat,
+    setMessages,
+  } = ChatState();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -108,7 +114,7 @@ export default function SideBar() {
                   ? "chats-result-selected"
                   : "chats-result-notselected"
               }
-              onClick={() => updateSelectedChat(chatDetails)}
+              onClick={(() => updateSelectedChat(chatDetails))}
             >
               <img
                 src={getSenderImage(userDetails, chatDetails.users)}
